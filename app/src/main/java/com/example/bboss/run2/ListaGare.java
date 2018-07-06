@@ -23,8 +23,8 @@ public class ListaGare extends AppCompatActivity {
         setContentView(R.layout.activity_lista_gare);
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
-        //lvGare = findViewById(R.id.lvGare);
-        //btnBack = findViewById(R.id.btnBack);
+        lvGare = findViewById(R.id.lvGare);
+        btnBack = findViewById(R.id.btnBack);
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,14 +40,14 @@ public class RaceAdapter extends ArrayAdapter<Race> {
             convertView = mInflater.inflate(resource, null);
         }
 
-        /*TextView tvName = convertView.findViewById(R.id.tvName);
+        TextView tvName = convertView.findViewById(R.id.tvName);
         TextView tvDate = convertView.findViewById(R.id.tvData);
         TextView tvLocality = convertView.findViewById(R.id.tvLocality);
         TextView tvDistance = convertView.findViewById(R.id.tvDistance);
         tvName.setText(races.get(position).getName());
         tvDate.setText(races.get(position).getDateRace().toString());
         tvLocality.setText(races.get(position).getLocality());
-        tvDistance.setText(String.valueOf( races.get(position).getDistance()));*/
+        tvDistance.setText(String.valueOf( races.get(position).getDistance()));
         return convertView;
     }
 }

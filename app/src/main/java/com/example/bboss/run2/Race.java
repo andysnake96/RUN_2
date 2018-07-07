@@ -1,6 +1,15 @@
 package com.example.bboss.run2;
 
-import java.time.LocalDate;
+import android.annotation.SuppressLint;
+import android.os.Build;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,19 +23,77 @@ public class Race {
     private String name;
     private String description;
     private String locality;
-    private LocalDate dateRace;
-    private LocalDate prenExspire;
+    private LocalDateTime dateRace;
+    private LocalDateTime prenExpire;     //TODO COMPATIBILITY API>26 :(
+    private String dateRaceExport;   //TODO ONLY FOR CREATE JSON REMOVE
+    private String prenExpireExport;
     private String urlRace;
     private String urlImage;
     private String note;
     private int n_max_runner;
-    private float distance;
+    private Double distance;
 
-    public float getDistance() {
+    public Race(List<String> keys,List<Object> values){
+        //constructor to generate Race obj from List keyValue from json parsing
+        //Lists has to match order of meaning of valus
+        assert (keys.size()==values.size());
+        List<Race> races= new ArrayList<>();
+        for(int i=0;i<keys.size();i++){
+            String key=keys.get(i);
+            Object value=values.get(i);
+            try {
+                setAttributeFromMapping(key,value);             //set value in this obj
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void setAttributeFromMapping(String key, Object value) throws ParseException {
+        switch (key){
+            case "name":
+                this.name=(String) value;
+                break;
+            case "description":
+                this.description=(String) value;
+                break;
+            case "locality":
+                this.locality=(String) value;
+                break;
+            case "dateRace":
+                //TODO ALTERNATIVE API 22
+                //this.dateRace=LocalDateTime.parse(datea,DateTimeFormatter.ISO_DATE_TIME);
+                break;
+            case "prenExpire":
+                //this.prenExpire=LocalDateTime.parse(value.toString());
+                break;
+            case "urlRace":
+                this.urlRace=(String) value;
+                break;
+            case "urlImage":
+                this.urlImage=(String) value;
+                break;
+            case "note":
+                this.note=(String) value;
+                break;
+            case "id_race":
+                this.id_race= (int) value;
+                break;
+            case "n_max_runner":
+                this.n_max_runner= (int) value;
+                break;
+            case "distance":
+                this.distance= (Double) value;
+                break;
+
+
+
+        }
+    }
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(float distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
@@ -62,20 +129,20 @@ public class Race {
         this.locality = locality;
     }
 
-    public LocalDate getDateRace() {
+    public LocalDateTime getDateRace() {
         return dateRace;
     }
 
-    public void setDateRace(LocalDate dateRace) {
+    public void setDateRace(LocalDateTime dateRace) {
         this.dateRace = dateRace;
     }
 
-    public LocalDate getPrenExspire() {
-        return prenExspire;
+    public LocalDateTime getPrenExpire() {
+        return prenExpire;
     }
 
-    public void setPrenExspire(LocalDate prenExspire) {
-        this.prenExspire = prenExspire;
+    public void setPrenExpire(LocalDateTime prenExpire) {
+        this.prenExpire = prenExpire;
     }
 
     public String getUrlRace() {
@@ -112,9 +179,19 @@ public class Race {
 
     public Race() {
         Random random = new Random();
+        urlRace=String.valueOf(random.nextInt());
+        urlImage=String.valueOf(random.nextInt());
+        n_max_runner=random.nextInt()%100;
+        this.name = String.valueOf(random.nextInt());
+        this.note = String.valueOf(random.nextInt());
+        this.description = String.valueOf(random.nextInt());
         name = String.valueOf(random.nextInt());
         locality = "ROMA!";
-        dateRace = LocalDate.now().plusDays(random.nextInt()%5);
-        distance= random.nextFloat();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dateRaceExport = LocalDateTime.now().plusDays(random.nextInt()%11).format(DateTimeFormatter.ISO_DATE_TIME);
+            prenExpireExport =LocalDateTime.now().plusDays(-(random.nextInt()%11)).format(DateTimeFormatter.ISO_DATE_TIME);
+        }
+        distance= random.nextDouble();
+
     }
 }
